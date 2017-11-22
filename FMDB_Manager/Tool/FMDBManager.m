@@ -7,7 +7,6 @@
 //
 
 #import "FMDBManager.h"
-
 #import <objc/runtime.h>
 
 //通过model获取类名
@@ -18,9 +17,6 @@
 #define KMODEL_PROPERTYS [self getAllProperties:model]
 
 @implementation FMDBManager
-
-#pragma mark
-#pragma mark ---
 
 static FMDBManager *_shareInstance = nil;
 +(instancetype)sharedInstance
@@ -42,8 +38,7 @@ static FMDBManager *_shareInstance = nil;
     return _shareInstance;
 }
 
-#pragma mark
-#pragma mark --- 获取model的属性名
+/** 获取model的属性名 */
 + (NSArray *)getAllProperties:(id)model
 {
     u_int count;
@@ -93,7 +88,7 @@ static FMDBManager *_shareInstance = nil;
     return _databaseQueue;
 }
 
-//** 创建表操作 */
+/** 创建表操作 */
 + (void)createTableWithModel:(id)model
 {
     [self createTableWithModel:model andWithSuffix:nil];
@@ -127,7 +122,7 @@ static FMDBManager *_shareInstance = nil;
     }];    
 }
 
-//** 插入操作 */
+/** 插入操作 */
 + (void)insertWithModel:(id)model
 {
     [self insertWithModel:model andWithSuffix:nil];
@@ -186,7 +181,7 @@ static FMDBManager *_shareInstance = nil;
     }];
 }
 
-//** 删除数据操作 */
+/** 删除数据操作 */
 + (void)deleteObjectsWithModel:(id)model
 {
     [self deleteObjectsWithModel:model andWithSuffix:nil];
@@ -237,7 +232,7 @@ static FMDBManager *_shareInstance = nil;
     }];
 }
 
-//** 删除表操作 */
+/** 删除表操作 */
 + (void)deleteTableWithModel:(id)model
 {
     [self deleteTableWithModel:model andWithSuffix:nil];
@@ -260,7 +255,7 @@ static FMDBManager *_shareInstance = nil;
     }];
 }
 
-//** 更新操作 */
+/** 更新操作 */
 + (void)updateWithModel:(id)model andWithSuffix:(NSString *)suffix andKey:(NSString *)key andValue:(NSString *)value
 {
     FMDBManager *dbManager = [FMDBManager sharedInstance];
@@ -302,8 +297,7 @@ static FMDBManager *_shareInstance = nil;
 
 
 #if 0
-#pragma mark
-#pragma mark --- 获取沙盒路径
+/** 获取沙盒路径 */
 - (NSString *)databaseFilePath
 {
     NSArray *filePath = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
@@ -312,15 +306,13 @@ static FMDBManager *_shareInstance = nil;
     return dbFilePath;
 }
 
-#pragma mark
-#pragma mark --- 创建数据库
+/** 创建数据库 */
 - (void)creatDatabase
 {
     _database = [FMDatabase databaseWithPath:[self databaseFilePath]];
 }
 
-#pragma mark
-#pragma mark --- 创建表
+/** 创建表 */
 - (void)creatTable:(id)model andWithSuffix:(NSString *)suffix
 {
     //先判断数据库是否存在，如果不存在，创建数据库
@@ -364,15 +356,13 @@ static FMDBManager *_shareInstance = nil;
     [_database close];
 }
 
-#pragma mark
-#pragma mark --- 增加或更新
+/** 增加或更新 */
 - (void)insertAndUpdateModelToDatabase:(id)model andWithSuffix:(NSString *)suffix
 {
     [self insertAndUpdateModelToDatabase:model andWithSuffix:suffix andKey:nil andValue:nil];
 }
 
-#pragma mark
-#pragma mark --- 增加或更新
+/** 增加或更新 */
 - (void)insertAndUpdateModelToDatabase:(id)model andWithSuffix:(NSString *)suffix andKey:(NSString *)key andValue:(NSString *)value
 {
     // 判断数据库是否存在
@@ -491,8 +481,7 @@ static FMDBManager *_shareInstance = nil;
     [_database close];
 }
 
-#pragma mark
-#pragma mark --- 根据键值对删除数据
+/** 根据键值对删除数据 */
 - (void)deleteModelInDatabase:(id)model andWithSuffix:(NSString *)suffix andKey:(NSString *)key andValue:(NSString *)value
 {
     // 判断是否创建数据库
@@ -523,8 +512,7 @@ static FMDBManager *_shareInstance = nil;
     [_database close];
 }
 
-#pragma mark
-#pragma mark --- 删除表
+/** 删除表 */
 - (void)deleteTable:(id)model andWithSuffix:(NSString *)suffix
 {
     if (!_database){
@@ -543,8 +531,7 @@ static FMDBManager *_shareInstance = nil;
     
 }
 
-#pragma mark
-#pragma mark --- 查询表中所有数据
+/** 查询表中所有数据 */
 - (NSArray *)selectModelArrayInDatabase:(id)model andWithSuffix:(NSString *)suffix
 {
     //    select * from tableName
